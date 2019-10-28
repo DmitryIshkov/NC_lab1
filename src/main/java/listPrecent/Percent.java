@@ -1,29 +1,35 @@
 package listPrecent;
 
 import org.joda.time.DateTime;
+import org.joda.time.Years;
+
 
 
 public class Percent {
+    public enum Sex {
+        MAN,
+        WOMAN
+    }
 
     static private int counter = 0;
 
     private int id;
     private String fio;
-    private boolean sex;
-    private DateTime dob;
+    private Sex sex;
+    private DateTime birthdays;
     private Percent nextPercent;
 
     /**
      * Конструктор класса Percent, поле следующего объекта инициализируется null'ом, id получается из статичной переменной counter, после чегоона инкрементируется
      * @param fio фамили имя отчество
      * @param sex пол 0-женщина, 1-мужчина
-     * @param dob дата рождения
+     * @param birthdays дата рождения
      */
-    public Percent(String fio, boolean sex, DateTime dob) {
+    public Percent(String fio, Sex sex, DateTime birthdays) {
         this.id = counter++;
         this.fio = fio;
         this.sex = sex;
-        this.dob = dob;
+        this.birthdays = birthdays;
         this.nextPercent = null;
     }
 
@@ -33,10 +39,25 @@ public class Percent {
                 "id=" + id +
                 ", fio='" + fio + '\'' +
                 ", sex=" + sex +
-                ", dob=" + dob +
+                ", dob=" + birthdays +
                 ", nextPercent=" + nextPercent +
                 '}';
     }
+
+    /**
+     * получение возраста
+     * @return возраст человека
+     */
+    public int getAge(){
+        DateTime currentDate = new DateTime();
+
+        if ((birthdays != null) && (currentDate != null)) {
+            return Years.yearsBetween(birthdays, currentDate).getYears();
+        } else {
+            return 0;
+        }
+    }
+
 
     public void setNextPercent(Percent nextPercent) {
         this.nextPercent = nextPercent;
@@ -54,12 +75,12 @@ public class Percent {
         this.fio = fio;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Sex sex) {
         this.sex = sex;
     }
 
-    public void setDob(DateTime dob) {
-        this.dob = dob;
+    public void setBirthdays(DateTime dob) {
+        this.birthdays = birthdays;
     }
 
     public int getId() {
@@ -70,11 +91,11 @@ public class Percent {
         return fio;
     }
 
-    public boolean isSex() {
+    public Sex isSex() {
         return sex;
     }
 
-    public DateTime getDob() {
-        return dob;
+    public DateTime getBirthdays() {
+        return birthdays;
     }
 }
